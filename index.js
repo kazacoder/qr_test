@@ -28,9 +28,10 @@ const scanner2 = new Html5Qrcode("reader")
 console.log(scanner2)
 const start = document.getElementById('scan');
 const stop = document.getElementById('stop');
+const qrBoxSize = {width: 300, height: 300}
 
 
-const qrConfig = {fps: 10, qrbox: {width: 300, height: 300}};
+const qrConfig = {fps: 10, qrbox: qrBoxSize};
 const html5QrCode = new Html5Qrcode("reader");
 
 
@@ -49,11 +50,18 @@ const handleClickAdvanced = () => {
         {facingMode: "environment"},
         qrConfig,
         qrCodeSuccessCallback
-    ).then(startControls())
+    )
+        .then(function (result) {
+            console.log(result);
+            console.log(222);
+        })
+        .then(startControls(html5QrCode))
+
         .catch((err) => {
             console.log(err);
         });
-
+    console.log(html5QrCode)
+    return 1
 };
 
 const handleStop = () => {
@@ -75,11 +83,22 @@ const handleStop = () => {
 };
 
 
-function startControls () {
+function startControls(e) {
+    console.log(e)
+    console.log(e.qrRegion)
     stop.style.display = 'block';
     start.style.display = 'none';
     console.log(111)
+    const qrRegion = document.getElementById('reader')
+    const closeButton = document.createElement('button');
+    closeButton.innerText = 'Close';
+    closeButton.className = 'close-button';
+    closeButton.style.left = (window.screen.width - qrBoxSize.width) / 2 + qrBoxSize.width - 8 + 'px';
+    closeButton.style.top = (window.screen.height - qrBoxSize.height) / 2 + 8 + 'px';
+    closeButton.addEventListener('click', handleStop);
+    qrRegion.appendChild(closeButton);
 }
+
 
 start.addEventListener('click', handleClickAdvanced);
 stop.addEventListener('click', handleStop);
