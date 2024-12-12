@@ -49,9 +49,11 @@ const handleClickAdvanced = () => {
         {facingMode: "environment"},
         qrConfig,
         qrCodeSuccessCallback
-    );
-    stop.style.display = 'block';
-    start.style.display = 'none';
+    ).then(startControls())
+        .catch((err) => {
+            console.log(err);
+        });
+
 };
 
 const handleStop = () => {
@@ -73,6 +75,11 @@ const handleStop = () => {
 };
 
 
+function startControls () {
+    stop.style.display = 'block';
+    start.style.display = 'none';
+    console.log(111)
+}
 
 start.addEventListener('click', handleClickAdvanced);
 stop.addEventListener('click', handleStop);
