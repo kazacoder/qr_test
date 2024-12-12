@@ -28,13 +28,18 @@ const scanner2 = new Html5Qrcode("reader")
 console.log(scanner2)
 
 
-const qrConfig = { fps: 10, qrbox: { width: 300, height: 300 } };
+const qrConfig = {fps: 10, qrbox: {width: 300, height: 300}};
 const html5QrCode = new Html5Qrcode("reader");
 
 
 const handleClickAdvanced = () => {
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
         // props.onResult(decodedText);
+        console.log(decodedText);
+        document.getElementById('result').innerHTML = `
+            <h2>Success!</h2>
+            <p>${decodedText}</p>
+            `;
         handleStop();
     };
     html5QrCode.start(
