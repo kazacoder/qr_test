@@ -25,8 +25,6 @@
 // console.log(process.env.USERDOMAIN === 'DESKTOP-DOB9UMM')
 
 
-const scanner2 = new Html5Qrcode("reader")
-console.log(scanner2)
 const start = document.getElementById('scan');
 const stop = document.getElementById('stop');
 const qrBoxSize = {width: 300, height: 300}
@@ -36,7 +34,7 @@ const qrConfig = {fps: 10, qrbox: qrBoxSize};
 const html5QrCode = new Html5Qrcode("reader");
 
 
-async function handleClickAdvanced () {
+async function handleClickAdvanced() {
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
         // props.onResult(decodedText);
         console.log(decodedText);
@@ -52,20 +50,37 @@ async function handleClickAdvanced () {
         qrConfig,
         qrCodeSuccessCallback
     )
-        .then((resolve, reject) => {
-            console.log(resolve, reject);
-            console.log(111123);
-        })
         .then(startControls(html5QrCode))
 
         .catch((err) => {
             console.log(111123);
             console.log(err);
         });
+
     console.log(html5QrCode)
     console.log('---------------')
+    setTimeout(() => {
+        findReaderElement().then(result => {
+            // result.style.background = 'red'
+            console.log(result);
+            const closeButton = document.createElement('button');
+            closeButton.innerHTML = '&times';
+            closeButton.style.position = 'absolute';
+            closeButton.style.top = '2px';
+            closeButton.style.right = '2px';
+            closeButton.addEventListener('click', handleStop);
+            result.appendChild(closeButton);
+        });
+    }, 1000)
+    const readerElement = await findReaderElement()
+    console.log(readerElement)
+    console.log('---------------1')
     return 1
-};
+}
+
+async function findReaderElement() {
+    return document.getElementById('qr-shaded-region');
+}
 
 const handleStop = () => {
     try {
@@ -87,7 +102,7 @@ const handleStop = () => {
 
 
 function startControls(e) {
-    console.log(e)
+    console.log(e.element.children[0])
     console.log(e.qrRegion)
     stop.style.display = 'block';
     start.style.display = 'none';
@@ -99,7 +114,7 @@ function startControls(e) {
     closeButton.style.left = (window.screen.width - qrBoxSize.width) / 2 + qrBoxSize.width - 8 + 'px';
     closeButton.style.top = (window.screen.height - qrBoxSize.height) / 2 + 8 + 'px';
     closeButton.addEventListener('click', handleStop);
-    qrRegion.appendChild(closeButton);
+    // qrRegion.appendChild(closeButton);
 }
 
 
