@@ -22,6 +22,7 @@
 // function error() {
 //
 // }
+// console.log(process.env.USERDOMAIN === 'DESKTOP-DOB9UMM')
 
 
 const scanner2 = new Html5Qrcode("reader")
@@ -35,7 +36,7 @@ const qrConfig = {fps: 10, qrbox: qrBoxSize};
 const html5QrCode = new Html5Qrcode("reader");
 
 
-const handleClickAdvanced = () => {
+async function handleClickAdvanced () {
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
         // props.onResult(decodedText);
         console.log(decodedText);
@@ -46,21 +47,23 @@ const handleClickAdvanced = () => {
             `;
         handleStop();
     };
-    html5QrCode.start(
+    await html5QrCode.start(
         {facingMode: "environment"},
         qrConfig,
         qrCodeSuccessCallback
     )
-        .then(function (result) {
-            console.log(result);
-            console.log(222);
+        .then((resolve, reject) => {
+            console.log(resolve, reject);
+            console.log(111123);
         })
         .then(startControls(html5QrCode))
 
         .catch((err) => {
+            console.log(111123);
             console.log(err);
         });
     console.log(html5QrCode)
+    console.log('---------------')
     return 1
 };
 
